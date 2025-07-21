@@ -63,7 +63,7 @@ import logging
         """Calcule le facteur de transcendance"""
         
         intelligence_factor = intelligence * 0.4
-        creativity_factor = min(insights / 10, 0.3)n logging ultimate
+        creativity_factor = min(insights / 10, 0.3)
 logging.basicConfig(level=logging.INFO, format='[ULTIMATE] %(asctime)s: %(message)s')
 ultimate_logger = logging.getLogger('ESERISIA_ULTIMATE')
 
