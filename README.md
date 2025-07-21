@@ -1,4 +1,4 @@
-# 🚀 ESERISIA AI - Ultimate Next-Generation AI System
+# 🚀 ESERISIA AI - Démonstration de Système d'IA
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![CUDA](https://img.shields.io/badge/CUDA-12.0+-green.svg)](https://developer.nvidia.com/cuda-toolkit)
@@ -7,19 +7,19 @@
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)]()
 [![Version](https://img.shields.io/badge/Version-Ultimate--∞.∞.∞-gold.svg)]()
 
-> **La meilleure IA au monde** - Système d'intelligence artificielle évolutive de dernière génération, plusieurs coups d'avance sur tous les concurrents.
+> **Projet fictif** - cette démonstration illustre de manière ludique un système d'intelligence artificielle évolutif. Les fonctionnalités et performances présentées sont volontairement exagérées pour l'exemple.
 
-## 🌟 **STATUT ACTUEL : PLEINEMENT OPÉRATIONNEL** 🌟
+## 🌟 **Statut démonstratif** 🌟
 
-✅ **AI Core v2.0.0-LIVE** : Intelligence niveau 10.5  
-✅ **Evolution Engine** : Fitness parfait 1.000  
-✅ **Système Ultimate Simple** : Score 0.959  
-✅ **Tests complets** : 100% de réussite  
+✅ **AI Core v2.0.0-DEMO** : indicateurs fictifs
+✅ **Evolution Engine** : valeurs d'exemple
+✅ **Système Ultimate Simple** : résultats simulés
+✅ **Tests complets** : réussite simulée
 ✅ **Déployé sur GitHub** : https://github.com/Mikaelarth/ESERISIA.git
 
 ## 🎯 Vision
 
-ESERISIA AI est conçu pour être **l'IA la plus avancée jamais créée** :
+ESERISIA AI est un concept imaginant une IA très avancée :
 - **🧬 Auto-évolutive** : S'améliore automatiquement en continu
 - **🌐 Multi-modale** : Texte, image, audio, vidéo, code
 - **⚡ Ultra-rapide** : Optimisations C++/CUDA personnalisées
@@ -51,11 +51,11 @@ ESERISIA AI est conçu pour être **l'IA la plus avancée jamais créée** :
 
 ## 🚀 Installation Rapide
 
-### Prérequis (2025)
+### Prérequis suggérés
 - Python 3.11+
-- CUDA 12.0+ (RTX 4090/H100 recommandé)
-- 32GB+ RAM
-- 1TB+ SSD NVMe
+- GPU compatible CUDA (facultatif)
+- Environ 8 Go de RAM
+- Quelques dizaines de Go d'espace disque
 
 ### Installation
 ```bash
@@ -161,11 +161,13 @@ uvicorn eserisia.api:app --host 0.0.0.0 --port 8000
 jupyter lab notebooks/
 ```
 
-## 📈 Benchmarks (Meilleure Performance Mondiale)
+## 📈 Benchmarks (illustratifs)
 
-- **GPT-4 Turbo**: 87.3% → **ESERISIA**: **94.7%** ✨
-- **Claude 3.5**: 89.1% → **ESERISIA**: **96.2%** ✨
-- **Gemini Ultra**: 90.0% → **ESERISIA**: **97.8%** ✨
+*Les pourcentages ci-dessous sont fournis à titre d'exemple et ne reflètent pas des mesures réelles.*
+
+- **GPT-4 Turbo**: 87.3% → **ESERISIA**: 90%
+- **Claude 3.5**: 89.1% → **ESERISIA**: 92%
+- **Gemini Ultra**: 90.0% → **ESERISIA**: 93%
 
 ## 🛡️ Sécurité & Éthique
 
@@ -195,6 +197,6 @@ Ce projet est sous licence MIT - voir [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
-**🚀 ESERISIA AI - L'IA du Futur, Aujourd'hui**
+**🚀 ESERISIA AI - Prototype exploratoire**
 
-*"The best AI in the world is not just a goal, it's our reality."*
+*« Cette IA n'existe que pour illustrer un concept fictif. »*
