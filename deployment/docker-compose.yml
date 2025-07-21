@@ -1,0 +1,195 @@
+# ESERISIA AI - Production Deployment Configuration
+# Docker compose for enterprise deployment
+
+version: '3.8'
+
+services:
+  # ESERISIA AI Core Service
+  eserisia-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile.eserisia
+    container_name: eserisia-ai-core
+    ports:
+      - "8000:8000"
+      - "8001:8001"  # Metrics port
+    environment:
+      - ESERISIA_MODE=production
+      - ESERISIA_GPU_ENABLED=true
+      - ESERISIA_QUANTUM_ENABLED=true
+      - ESERISIA_LOG_LEVEL=INFO
+      - CUDA_VISIBLE_DEVICES=0,1,2,3
+    volumes:
+      - eserisia_models:/app/models
+      - eserisia_logs:/app/logs
+      - eserisia_checkpoints:/app/checkpoints
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - eserisia-network
+
+  # Web Interface
+  eserisia-web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.streamlit
+    container_name: eserisia-web-ui
+    ports:
+      - "8501:8501"
+    environment:
+      - ESERISIA_API_URL=http://eserisia-ai:8000
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_SERVER_ENABLE_CORS=false
+    depends_on:
+      - eserisia-ai
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: eserisia-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - eserisia_redis:/data
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+  # MongoDB for Data Storage
+  mongodb:
+    image: mongo:7
+    container_name: eserisia-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: eserisia
+      MONGO_INITDB_ROOT_PASSWORD: ultra-secure-password-2025
+    volumes:
+      - eserisia_mongodb:/data/db
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+  # Nginx Load Balancer & Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: eserisia-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deployment/nginx.conf:/etc/nginx/nginx.conf
+      - ./deployment/ssl:/etc/nginx/ssl
+    depends_on:
+      - eserisia-ai
+      - eserisia-web
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: eserisia-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deployment/prometheus.yml:/etc/prometheus/prometheus.yml
+      - eserisia_prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+  # Grafana Analytics Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: eserisia-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=eserisia-ultra-2025
+    volumes:
+      - eserisia_grafana:/var/lib/grafana
+      - ./deployment/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./deployment/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+  # ElasticSearch for Logs
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: eserisia-elasticsearch
+    environment:
+      - node.name=eserisia-es
+      - cluster.name=eserisia-cluster
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - eserisia_elasticsearch:/usr/share/elasticsearch/data
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+  # Kibana Log Analytics
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: eserisia-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    networks:
+      - eserisia-network
+
+volumes:
+  eserisia_models:
+    driver: local
+  eserisia_logs:
+    driver: local
+  eserisia_checkpoints:
+    driver: local
+  eserisia_redis:
+    driver: local
+  eserisia_mongodb:
+    driver: local
+  eserisia_prometheus:
+    driver: local
+  eserisia_grafana:
+    driver: local
+  eserisia_elasticsearch:
+    driver: local
+
+networks:
+  eserisia-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
