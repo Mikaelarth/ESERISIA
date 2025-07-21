@@ -18,6 +18,7 @@ import json
 from datetime import datetime
 import uvicorn
 import logging
+import numpy as np
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
