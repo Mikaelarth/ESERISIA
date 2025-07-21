@@ -16,7 +16,12 @@ import torch.nn as nn
 from transformers import AutoModel, AutoTokenizer
 import numpy as np
 
-from ..models import TransformerEvolved, LiquidNeuralNetwork
+try:
+    from ..models import TransformerEvolved, LiquidNeuralNetwork
+except Exception as e:  # pragma: no cover - fallback for missing models
+    logging.warning(f"Models import failed: {e}")
+    TransformerEvolved = None
+    LiquidNeuralNetwork = None
 from ..training import MetaLearner, NeuralArchitectureSearch
 from ..inference import UltraFastInference
 from ..quantum import QuantumProcessor
