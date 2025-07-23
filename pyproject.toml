@@ -24,63 +24,26 @@ classifiers = [
 dependencies = [
     # Core ML Frameworks (Latest 2025)
     "torch>=2.3.0",
-    "torchvision>=0.18.0", 
+    "torchvision>=0.18.0",
     "torchaudio>=2.3.0",
-    "tensorflow>=2.16.0",
-    "jax[cuda]>=0.4.25",
-    "flax>=0.8.2",
+    "numpy>=1.24.0",
     
     # Transformers & LLMs
     "transformers>=4.40.0",
     "accelerate>=0.30.0",
-    "bitsandbytes>=0.43.0",
-    "flash-attn>=2.5.8",
-    "vllm>=0.4.2",
     
     # Advanced AI
-    "langchain>=0.2.0",
-    "llama-index>=0.10.0",
-    "autogen-agentchat>=0.2.0",
-    "crewai>=0.30.0",
-    
-    # Quantum Computing
-    "qiskit>=1.1.0",
-    "cirq>=1.4.0",
-    "pennylane>=0.36.0",
-    
-    # Distributed Computing
-    "ray[default]>=2.10.0",
-    "dask[complete]>=2024.5.0",
-    "horovod>=0.28.1",
+    "pandas>=2.1.0",
+    "plotly>=5.21.0",
     
     # MLOps & Monitoring
-    "mlflow>=2.12.0",
-    "wandb>=0.17.0",
-    "tensorboard>=2.16.0",
-    "optuna>=3.6.0",
-    
-    # Data & Vector DBs
-    "datasets>=2.19.0",
-    "faiss-gpu>=1.8.0",
-    "chromadb>=0.5.0",
-    "pinecone-client>=4.1.0",
-    "weaviate-client>=4.5.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.2.1",
+    "typer>=0.12.3",
+    "rich>=13.7.0",
     
     # Computer Vision
-    "opencv-python>=4.9.0",
-    "pillow>=10.3.0",
-    "albumentations>=1.4.0",
-    "timm>=0.9.16",
-    
-    # NLP Advanced
-    "spacy>=3.7.0",
-    "nltk>=3.8.0",
-    "sentence-transformers>=2.7.0",
-    
-    # Performance
-    "numba>=0.59.0",
-    "cupy-cuda12x>=13.1.0",
-    "triton>=2.3.0",
+    "scikit-learn>=1.3.0",
     
     # API & Web
     "fastapi>=0.111.0",
@@ -103,12 +66,6 @@ dev = [
     "pytest-cov>=5.0.0",
     "sphinx>=7.3.0",
     "sphinx-rtd-theme>=2.0.0",
-]
-
-quantum = [
-    "qiskit-aer>=0.14.0",
-    "qiskit-ibm-runtime>=0.23.0",
-    "amazon-braket-sdk>=1.74.0",
 ]
 
 research = [
