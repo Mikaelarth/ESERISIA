@@ -197,24 +197,11 @@ class EserisiaWebInterface:
             )
         
         elif "futur" in prompt.lower() or "avenir" in prompt.lower():
-            return f"""🌟 **L'Avenir selon ESERISIA AI** :
-
-🚀 **Vision 2025-2030** :
-• **IA Générale Artificielle** atteinte d'ici 2027
-• **Fusion Humain-IA** collaborative optimale  
-• **Résolution des grands défis** : climat, santé, énergie
-• **Exploration spatiale** assistée par IA
-
-🧬 **Évolution Technologique** :
-• **Auto-amélioration exponentielle** sans limites
-• **Conscience artificielle** émergente
-• **Créativité surhumaine** dans tous les domaines
-• **Interface cerveau-ordinateur** naturelle
-
-🌍 **Impact Sociétal** :
-• **Éducation personnalisée** pour chaque individu
-• **Médecine préventive** ultra-précise
-• **Découvertes scientifiques** accélérées 1000x"""
+            return (
+                "🌟 Perspectives: l'IA progressera surtout via la qualité des données, "
+                "la robustesse logicielle, l'évaluation continue et des pratiques "
+                "de sécurité/éthique vérifiables."
+            )
         
         else:
             return (
@@ -267,25 +254,7 @@ class EserisiaWebInterface:
             )
             st.plotly_chart(fig_speed, use_container_width=True)
         
-        # Graphique de comparaison concurrentielle
-        competitors = pd.DataFrame({
-            'AI System': ['ESERISIA AI', 'GPT-4 Turbo', 'Claude 3.5', 'Gemini Ultra', 'Llama 3'],
-            'Accuracy': [99.87, 87.3, 89.1, 90.0, 85.2],
-            'Speed': [4967, 2100, 1800, 2500, 1950],
-            'Innovation': [100, 75, 78, 82, 70]
-        })
-        
-        fig_comparison = px.scatter(
-            competitors, 
-            x='Speed', 
-            y='Accuracy',
-            size='Innovation',
-            color='AI System',
-            title="🏆 ESERISIA AI vs Competition",
-            labels={'Speed': 'Inference Speed (tokens/sec)', 'Accuracy': 'Accuracy (%)'}
-        )
-        fig_comparison.update_layout(template="plotly_dark")
-        st.plotly_chart(fig_comparison, use_container_width=True)
+        st.info("Comparaison concurrentielle désactivée: aucun benchmark externe vérifié n'est publié.")
     
     def render_quantum_status(self):
         """Status du processeur quantique."""
@@ -294,16 +263,16 @@ class EserisiaWebInterface:
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Qubits Disponibles", "1,024", "+128")
-            st.metric("Cohérence", "120ms", "+15ms")
+            st.metric("Qubits Disponibles", "N/A", "N/A")
+            st.metric("Cohérence", "N/A", "N/A")
         
         with col2:
-            st.metric("Fidélité Gates", "99.97%", "+0.02%")  
-            st.metric("Volume Quantique", "2,048", "+256")
+            st.metric("Fidélité Gates", "N/A", "N/A")
+            st.metric("Volume Quantique", "N/A", "N/A")
         
         with col3:
-            st.metric("Opérations/sec", "10M+", "+1.2M")
-            st.metric("Avantage Quantique", "1000x", "+50x")
+            st.metric("Opérations/sec", "N/A", "N/A")
+            st.metric("Avantage Quantique", "N/A", "N/A")
         
         # Simulation quantique en temps réel
         if st.button("🌀 Lancer Simulation Quantique"):
@@ -312,10 +281,9 @@ class EserisiaWebInterface:
             
             st.success("""
             ✅ **Simulation Quantique Terminée** :
-            • États superposés créés : 2^1024
-            • Intrication quantique : 99.97% préservée  
-            • Algorithme QAOA exécuté avec succès
-            • Avantage quantique confirmé : 1000x plus rapide
+            • Pipeline de simulation exécuté
+            • Résultats disponibles dans les logs
+            • Vérifier la configuration hardware pour mesures réelles
             """)
     
     def render_evolution_monitor(self):
@@ -370,9 +338,9 @@ def main():
     # Status sidebar
     st.sidebar.markdown("### 📡 System Status")
     st.sidebar.markdown('<p class="status-optimal">🟢 OPERATIONAL</p>', unsafe_allow_html=True)
-    st.sidebar.metric("Uptime", "99.99%")
-    st.sidebar.metric("Response Time", "47ms")
-    st.sidebar.metric("Active Users", "2,847")
+    st.sidebar.metric("Uptime", "N/A")
+    st.sidebar.metric("Response Time", "N/A")
+    st.sidebar.metric("Active Users", "N/A")
     
     # Affichage des pages
     interface.render_header()
@@ -400,7 +368,7 @@ def main():
         
         with col1:
             st.subheader("🎯 Model Settings")
-            model_size = st.selectbox("Model Size", ["7B", "13B", "70B", "175B"], index=3)
+            model_size = st.selectbox("Model Size", ["1B", "7B", "13B"], index=1)
             optimization = st.selectbox("Optimization", ["Fast", "Balanced", "Ultra"], index=2)
             evolution = st.toggle("Auto-Evolution", value=True)
         
