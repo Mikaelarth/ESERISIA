@@ -15,6 +15,7 @@ import asyncio
 import time
 import uuid
 import json
+import os
 from datetime import datetime
 import uvicorn
 import logging
@@ -70,9 +71,15 @@ app = FastAPI(
 )
 
 # CORS Configuration
+allowed_origins = [
+    origin.strip()
+    for origin in os.getenv("ESERISIA_ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En production, spécifier les domaines autorisés
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -88,6 +95,7 @@ class EserisiaAPICore:
         self.start_time = time.time()
         self.active_connections = 0
         self.request_count = 0
+        self.strict_mode = os.getenv("ESERISIA_STRICT_MODE", "1") != "0"
         self.performance_metrics = {
             "accuracy": 99.87,
             "avg_latency_ms": 47.3,
@@ -102,6 +110,13 @@ class EserisiaAPICore:
         """Generate AI response with ultra-fast processing."""
         
         start_time = time.time()
+        if self.strict_mode:
+            response = (
+                "Réponse en mode strict: service API opérationnel. "
+                "Aucune métrique marketing simulée n'est renvoyée."
+            )
+            await asyncio.sleep(0.03)
+            return response
         
         # Simulate AI processing with intelligent responses
         if "performance" in request.message.lower():
@@ -228,7 +243,13 @@ eserisia_core = EserisiaAPICore()
 # Authentication (simple token pour demo)
 async def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)):
     """Verify API token."""
-    valid_tokens = ["eserisia-ultra-token", "demo-token", "test-token"]
+    valid_tokens = [
+        token.strip()
+        for token in os.getenv("ESERISIA_API_TOKENS", "change-me-token").split(",")
+        if token.strip()
+    ]
+    if valid_tokens == ["change-me-token"]:
+        logger.warning("Using default API token. Set ESERISIA_API_TOKENS in production.")
     
     if credentials.credentials not in valid_tokens:
         raise HTTPException(
