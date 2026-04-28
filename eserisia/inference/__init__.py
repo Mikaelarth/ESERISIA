@@ -58,47 +58,25 @@ class UltraFastInference:
         return response
     
     def _generate_future_response(self, prompt: str) -> str:
-        return """🌟 L'avenir de l'IA sera dominé par des systèmes évolutifs comme ESERISIA :
-
-🧬 **Auto-évolution continue** : L'IA s'améliore sans intervention humaine
-⚛️ **Traitement quantique** : Résolution de problèmes impossibles
-🌐 **Multi-modalité native** : Texte, image, audio, vidéo unifiés
-🎯 **Prédiction anticipative** : Comprend vos besoins avant vous
-🛡️ **Alignement garanti** : Sécurité et éthique intégrées
-⚡ **Performance surhumaine** : 99%+ de précision
-
-ESERISIA représente cette révolution dès aujourd'hui !"""
+        return (
+            "Perspective IA: la valeur provient surtout de la robustesse logicielle, "
+            "de la qualité des données et de l'évaluation continue. "
+            "Les performances doivent être validées par des benchmarks reproductibles."
+        )
     
     def _generate_tech_response(self, prompt: str) -> str:
-        return """🔬 ESERISIA utilise les technologies les plus avancées :
-
-**Architecture Hybride** :
-• Python (orchestration IA)
-• C++/CUDA (kernels ultra-rapides)
-• Rust (infrastructure distribuée)
-
-**Innovations 2025** :
-• Flash Attention 3.0 (10x plus rapide)
-• Liquid Neural Networks (adaptation dynamique)
-• Quantum-Classical Hybrid (avantage quantique)
-• Constitutional AI (alignement éthique)
-
-**Performance** :
-• 4850+ tokens/sec
-• Latence < 50ms
-• 99.7% précision"""
+        return (
+            "Architecture technique: service Python, composants d'inférence modulaires, "
+            "et optimisations dépendantes de l'environnement d'exécution. "
+            "Aucune comparaison de performance externe n'est fournie ici."
+        )
     
     def _generate_general_response(self, prompt: str) -> str:
-        return f"""🤖 ESERISIA comprend parfaitement : "{prompt[:100]}..."
-
-En tant qu'IA la plus avancée, je traite votre demande avec :
-• Analyse contextuelle ultra-profonde
-• Raisonnement multi-étapes optimisé
-• Génération personnalisée et créative
-• Vérification éthique intégrée
-
-⚡ Traitement terminé en {self.inference_stats['avg_latency']*1000:.1f}ms
-🎯 Précision garantie : 99.7%"""
+        return (
+            f"Requête reçue: \"{prompt[:100]}...\". "
+            f"Latence moyenne interne observée: {self.inference_stats['avg_latency']*1000:.1f}ms. "
+            "Cette valeur est indicative et dépend de la charge ainsi que du matériel."
+        )
 
 
 class RealtimeProcessor:

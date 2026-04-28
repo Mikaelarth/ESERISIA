@@ -76,11 +76,11 @@ class EserisiaWebInterface:
     def __init__(self):
         self.ai_status = {
             "status": "OPERATIONAL",
-            "accuracy": 99.87,
-            "speed": 4967,
-            "evolution_cycles": 1247,
-            "quantum_mode": True,
-            "uptime": "99.99%"
+            "accuracy": "N/A",
+            "speed": "N/A",
+            "evolution_cycles": "N/A",
+            "quantum_mode": "CONFIG_DEPENDENT",
+            "uptime": "N/A"
         }
         
         self.performance_history = self._generate_performance_data()
@@ -116,8 +116,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="metric-card">
                 <h3>🎯 Accuracy</h3>
-                <h2>99.87%</h2>
-                <p>SOTA Performance</p>
+                <h2>N/A</h2>
+                <p>Mesure non publiée</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -125,8 +125,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="metric-card">
                 <h3>⚡ Speed</h3>
-                <h2>4,967</h2>
-                <p>tokens/second</p>
+                <h2>N/A</h2>
+                <p>Dépend du runtime</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -134,8 +134,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="metric-card">
                 <h3>🧬 Evolution</h3>
-                <h2>1,247</h2>
-                <p>cycles completed</p>
+                <h2>N/A</h2>
+                <p>Selon la config</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -143,8 +143,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="quantum-indicator">
                 <h3>⚛️ Quantum</h3>
-                <h2>ACTIVE</h2>
-                <p>1024 qubits ready</p>
+                <h2>OPTIONAL</h2>
+                <p>Module optionnel</p>
             </div>
             """, unsafe_allow_html=True)
     
@@ -155,7 +155,7 @@ class EserisiaWebInterface:
         # Historique des conversations
         if 'messages' not in st.session_state:
             st.session_state.messages = [
-                {"role": "assistant", "content": "🤖 Bonjour ! Je suis ESERISIA AI, l'IA la plus avancée au monde. Comment puis-je vous aider aujourd'hui ?"}
+                {"role": "assistant", "content": "🤖 Bonjour ! Je suis ESERISIA AI. Je fournis ici des réponses de démonstration neutres et factuelles."}
             ]
         
         # Affichage des messages
@@ -183,41 +183,18 @@ class EserisiaWebInterface:
         """Génère une réponse IA intelligente."""
         
         if "performance" in prompt.lower() or "statistique" in prompt.lower():
-            return f"""🎯 **Performances ESERISIA AI en temps réel** :
-
-📊 **Métriques Actuelles** :
-• Précision : **99.87%** (Record mondial)  
-• Vitesse : **4,967 tokens/sec** (Ultra-rapide)
-• Efficacité : **96.8%** (Optimale)
-• Évolutions : **1,247 cycles** (Auto-amélioration)
-
-⚛️ **Quantum Processing** : ACTIF (1024 qubits)
-🧬 **Auto-Evolution** : CONTINUE (+2.3% cette semaine)
-🛡️ **Sécurité** : NIVEAU MILITAIRE (99.99% fiabilité)
-
-🌟 **Avantage Concurrentiel** : 
-• 15% plus rapide que GPT-4
-• 8% plus précis que Claude 3.5  
-• 12% plus efficace que Gemini Ultra"""
+            return (
+                "📊 Les métriques publiques de performance ne sont pas exposées dans cette interface. "
+                "Utilisez les endpoints API et vos outils d'observabilité pour mesurer latence, "
+                "débit et qualité sur votre environnement."
+            )
         
         elif "technologie" in prompt.lower() or "architecture" in prompt.lower():
-            return f"""🔬 **Architecture Révolutionnaire ESERISIA** :
-
-🏗️ **Système Hybride Multi-Langages** :
-• **Python** : Orchestration IA et interface utilisateur
-• **C++/CUDA** : Kernels ultra-optimisés (10x plus rapide)
-• **Rust** : Infrastructure distribuée sécurisée
-
-🧠 **Innovations Technologiques** :
-• **Flash Attention 3.0** : Mécanisme d'attention révolutionnaire
-• **Liquid Neural Networks** : Adaptation dynamique en temps réel
-• **Neural Architecture Search** : Auto-optimisation architecturale
-• **Quantum-Classical Hybrid** : Avantage quantique intégré
-
-⚡ **Performance Exceptionnelle** :
-• Inférence < 50ms (temps réel)
-• 175B paramètres évolutifs
-• Scaling parfait multi-GPU/multi-nœud"""
+            return (
+                "🔬 Architecture: interface Streamlit + services Python. "
+                "Les modules avancés (quantum, évolution, accélération) sont optionnels "
+                "et dépendants des packages installés."
+            )
         
         elif "futur" in prompt.lower() or "avenir" in prompt.lower():
             return f"""🌟 **L'Avenir selon ESERISIA AI** :
@@ -240,19 +217,11 @@ class EserisiaWebInterface:
 • **Découvertes scientifiques** accélérées 1000x"""
         
         else:
-            return f"""🤖 **ESERISIA AI comprend parfaitement** : "{prompt[:100]}..."
-
-En tant qu'IA la plus avancée, j'analyse votre demande avec :
-• **Compréhension contextuelle** ultra-profonde
-• **Raisonnement multi-étapes** optimisé
-• **Génération créative** personnalisée  
-• **Vérification éthique** intégrée
-
-⚡ **Traitement** : 47ms (temps réel)
-🎯 **Précision** : 99.87% garantie
-🔒 **Sécurité** : Alignement constitutionnel validé
-
-Comment puis-je approfondir ma réponse pour mieux vous servir ?"""
+            return (
+                f"🤖 Requête reçue: \"{prompt[:100]}...\".\n\n"
+                "Cette interface fournit des réponses de démonstration sans revendications "
+                "de benchmark externe."
+            )
     
     def render_performance_analytics(self):
         """Graphiques de performance avancés."""
