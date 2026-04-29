@@ -8,7 +8,7 @@ Enterprise-grade API for the world's most advanced AI system.
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional, AsyncGenerator
 import asyncio
@@ -76,13 +76,23 @@ allowed_origins = [
     for origin in os.getenv("ESERISIA_ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
     if origin.strip()
 ]
+allowed_methods = [
+    method.strip().upper()
+    for method in os.getenv("ESERISIA_ALLOWED_METHODS", "GET,POST").split(",")
+    if method.strip()
+]
+allowed_headers = [
+    header.strip()
+    for header in os.getenv("ESERISIA_ALLOWED_HEADERS", "Authorization,Content-Type").split(",")
+    if header.strip()
+]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=allowed_methods,
+    allow_headers=allowed_headers,
 )
 
 # Security
@@ -204,6 +214,11 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Security(secu
     ]
     if valid_tokens == ["change-me-token"]:
         logger.warning("Using default API token. Set ESERISIA_API_TOKENS in production.")
+        if os.getenv("ESERISIA_ENV", "dev").lower() == "prod":
+            raise HTTPException(
+                status_code=500,
+                detail="Server misconfiguration: ESERISIA_API_TOKENS must be set in production",
+            )
     
     if credentials.credentials not in valid_tokens:
         raise HTTPException(
@@ -448,11 +463,14 @@ async def health_check():
 # Exception handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
-    return {
-        "error": exc.detail,
-        "status_code": exc.status_code,
-        "timestamp": datetime.now()
-    }
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": exc.detail,
+            "status_code": exc.status_code,
+            "timestamp": datetime.now().isoformat(),
+        },
+    )
 
 if __name__ == "__main__":
     uvicorn.run(
