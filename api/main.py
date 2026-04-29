@@ -8,13 +8,14 @@ Enterprise-grade API for the world's most advanced AI system.
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional, AsyncGenerator
 import asyncio
 import time
 import uuid
 import json
+import os
 from datetime import datetime
 import uvicorn
 import logging
@@ -70,12 +71,28 @@ app = FastAPI(
 )
 
 # CORS Configuration
+allowed_origins = [
+    origin.strip()
+    for origin in os.getenv("ESERISIA_ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
+    if origin.strip()
+]
+allowed_methods = [
+    method.strip().upper()
+    for method in os.getenv("ESERISIA_ALLOWED_METHODS", "GET,POST").split(",")
+    if method.strip()
+]
+allowed_headers = [
+    header.strip()
+    for header in os.getenv("ESERISIA_ALLOWED_HEADERS", "Authorization,Content-Type").split(",")
+    if header.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En production, spécifier les domaines autorisés
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=allowed_methods,
+    allow_headers=allowed_headers,
 )
 
 # Security
@@ -88,6 +105,7 @@ class EserisiaAPICore:
         self.start_time = time.time()
         self.active_connections = 0
         self.request_count = 0
+        self.strict_mode = os.getenv("ESERISIA_STRICT_MODE", "1") != "0"
         self.performance_metrics = {
             "accuracy": 99.87,
             "avg_latency_ms": 47.3,
@@ -102,81 +120,42 @@ class EserisiaAPICore:
         """Generate AI response with ultra-fast processing."""
         
         start_time = time.time()
+        if self.strict_mode:
+            response = (
+                "Réponse en mode strict: service API opérationnel. "
+                "Aucune métrique marketing simulée n'est renvoyée."
+            )
+            await asyncio.sleep(0.03)
+            return response
         
-        # Simulate AI processing with intelligent responses
+        # Neutral response generation without benchmark claims
         if "performance" in request.message.lower():
-            response = """🎯 **ESERISIA AI - Performance en Temps Réel** :
-
-📊 **Métriques Actuelles** :
-• Précision : **99.87%** (Record mondial SOTA)
-• Vitesse : **4,967 tokens/sec** (Ultra-rapide) 
-• Latence : **47ms** (Temps réel)
-• Efficacité : **96.8%** (Optimale)
-
-🧬 **Auto-Evolution** : 1,247 cycles complétés (+15.3% vitesse)
-⚛️ **Quantum Processing** : 1,024 qubits actifs
-🛡️ **Sécurité** : Niveau militaire (99.99% fiabilité)
-
-🏆 **Avantage Concurrentiel** :
-• 15% plus rapide que GPT-4 Turbo
-• 8% plus précis que Claude 3.5 Sonnet
-• 12% plus efficace que Gemini Ultra"""
+            response = (
+                "Statut de performance disponible via /status. "
+                "Les métriques exposées sont internes au service et ne constituent pas "
+                "un benchmark comparatif externe."
+            )
         
         elif "quantum" in request.message.lower():
-            response = """⚛️ **Traitement Quantique ESERISIA** :
-
-🌀 **Capacités Quantiques** :
-• **1,024 qubits logiques** disponibles
-• **Cohérence** : 120ms (record industrie)
-• **Fidélité des gates** : 99.97%
-• **Volume quantique** : 2,048
-
-🚀 **Algorithmes Quantiques** :
-• **QAOA** : Optimisation combinatoire
-• **VQE** : Calculs moléculaires
-• **QML** : Machine Learning quantique
-• **Shor/Grover** : Cryptographie avancée
-
-⚡ **Avantage Quantique** : 1000x plus rapide que calcul classique"""
+            response = (
+                "Le module quantique est optionnel et dépend de la configuration runtime. "
+                "Consultez /status pour vérifier les capacités effectivement actives."
+            )
         
         elif "technologie" in request.message.lower() or "architecture" in request.message.lower():
-            response = """🔬 **Architecture ESERISIA - Révolutionnaire** :
-
-🏗️ **Système Hybride Multi-Langages** :
-• **Python** : Orchestration IA (flexibilité)
-• **C++/CUDA** : Kernels optimisés (performance)  
-• **Rust** : Infrastructure (sécurité + concurrence)
-
-🧠 **Innovations Technologiques 2025** :
-• **Flash Attention 3.0** : 10x plus rapide
-• **Liquid Neural Networks** : Adaptation dynamique
-• **NAS Auto-Optimization** : Architecture évolutive
-• **Constitutional AI** : Alignement éthique intégré
-
-⚡ **Performance Exceptionnelle** :
-• **175B paramètres** évolutifs
-• **Inférence < 50ms** (temps réel)
-• **Scaling parfait** multi-GPU/nœud"""
+            response = (
+                "Architecture: service FastAPI + modules Python optionnels "
+                "(inference, évolution, interfaces). Les fonctionnalités actives "
+                "dépendent des dépendances installées et des variables d'environnement."
+            )
         
         else:
-            response = f"""🤖 **ESERISIA AI** comprend parfaitement votre question :
-
-"{request.message[:150]}..."
-
-En tant qu'**IA la plus avancée au monde**, je traite votre demande avec :
-
-🧠 **Intelligence Avancée** :
-• Compréhension contextuelle ultra-profonde
-• Raisonnement causal multi-étapes
-• Génération créative personnalisée
-• Vérification éthique intégrée
-
-⚡ **Performance** :
-• Traitement : {time.time() - start_time:.0f}ms
-• Précision : 99.87% garantie
-• Alignement : Constitutionnel validé
-
-Comment puis-je approfondir ma réponse pour mieux vous servir ?"""
+            response = (
+                f"Requête reçue: \"{request.message[:150]}\". "
+                "Cette API fournit une réponse de service neutre. "
+                "Utilisez les endpoints spécialisés (/status, /chat, /multimodal, /evolve) "
+                "pour obtenir des sorties structurées."
+            )
         
         # Simulate processing delay
         processing_time = max(0.03, 0.05 - (time.time() - start_time))
@@ -228,7 +207,18 @@ eserisia_core = EserisiaAPICore()
 # Authentication (simple token pour demo)
 async def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)):
     """Verify API token."""
-    valid_tokens = ["eserisia-ultra-token", "demo-token", "test-token"]
+    valid_tokens = [
+        token.strip()
+        for token in os.getenv("ESERISIA_API_TOKENS", "change-me-token").split(",")
+        if token.strip()
+    ]
+    if valid_tokens == ["change-me-token"]:
+        logger.warning("Using default API token. Set ESERISIA_API_TOKENS in production.")
+        if os.getenv("ESERISIA_ENV", "dev").lower() == "prod":
+            raise HTTPException(
+                status_code=500,
+                detail="Server misconfiguration: ESERISIA_API_TOKENS must be set in production",
+            )
     
     if credentials.credentials not in valid_tokens:
         raise HTTPException(
@@ -242,17 +232,15 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Security(secu
 async def root():
     """Root endpoint with API information."""
     return {
-        "message": "🚀 ESERISIA AI - The World's Most Advanced AI System",
+        "message": "ESERISIA AI API",
         "version": "1.0.0",
         "status": "OPERATIONAL",
         "documentation": "/docs",
         "capabilities": [
-            "Ultra-fast inference (4967+ tokens/sec)",
-            "99.87% accuracy (SOTA)",
-            "Auto-evolutionary learning",
-            "Quantum-classical hybrid processing",
-            "Multi-modal generation",
-            "Constitutional AI alignment"
+            "Chat endpoint",
+            "Streaming response",
+            "System status endpoint",
+            "Optional evolution and quantum modules"
         ]
     }
 
@@ -293,10 +281,10 @@ async def chat_with_ai(
             timestamp=datetime.now(),
             processing_time_ms=processing_time,
             model_info={
-                "model": "ESERISIA-175B-Ultra",
-                "accuracy": 99.87,
-                "speed_tokens_sec": 4967,
-                "evolution_generation": 1247
+                "model": "eserisia-service",
+                "strict_mode": eserisia_core.strict_mode,
+                "request_count": eserisia_core.request_count,
+                "timestamp": datetime.now().isoformat()
             }
         )
         
@@ -475,11 +463,14 @@ async def health_check():
 # Exception handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
-    return {
-        "error": exc.detail,
-        "status_code": exc.status_code,
-        "timestamp": datetime.now()
-    }
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": exc.detail,
+            "status_code": exc.status_code,
+            "timestamp": datetime.now().isoformat(),
+        },
+    )
 
 if __name__ == "__main__":
     uvicorn.run(

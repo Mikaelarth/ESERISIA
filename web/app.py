@@ -76,11 +76,11 @@ class EserisiaWebInterface:
     def __init__(self):
         self.ai_status = {
             "status": "OPERATIONAL",
-            "accuracy": 99.87,
-            "speed": 4967,
-            "evolution_cycles": 1247,
-            "quantum_mode": True,
-            "uptime": "99.99%"
+            "accuracy": "N/A",
+            "speed": "N/A",
+            "evolution_cycles": "N/A",
+            "quantum_mode": "CONFIG_DEPENDENT",
+            "uptime": "N/A"
         }
         
         self.performance_history = self._generate_performance_data()
@@ -116,8 +116,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="metric-card">
                 <h3>🎯 Accuracy</h3>
-                <h2>99.87%</h2>
-                <p>SOTA Performance</p>
+                <h2>N/A</h2>
+                <p>Mesure non publiée</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -125,8 +125,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="metric-card">
                 <h3>⚡ Speed</h3>
-                <h2>4,967</h2>
-                <p>tokens/second</p>
+                <h2>N/A</h2>
+                <p>Dépend du runtime</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -134,8 +134,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="metric-card">
                 <h3>🧬 Evolution</h3>
-                <h2>1,247</h2>
-                <p>cycles completed</p>
+                <h2>N/A</h2>
+                <p>Selon la config</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -143,8 +143,8 @@ class EserisiaWebInterface:
             st.markdown("""
             <div class="quantum-indicator">
                 <h3>⚛️ Quantum</h3>
-                <h2>ACTIVE</h2>
-                <p>1024 qubits ready</p>
+                <h2>OPTIONAL</h2>
+                <p>Module optionnel</p>
             </div>
             """, unsafe_allow_html=True)
     
@@ -155,7 +155,7 @@ class EserisiaWebInterface:
         # Historique des conversations
         if 'messages' not in st.session_state:
             st.session_state.messages = [
-                {"role": "assistant", "content": "🤖 Bonjour ! Je suis ESERISIA AI, l'IA la plus avancée au monde. Comment puis-je vous aider aujourd'hui ?"}
+                {"role": "assistant", "content": "🤖 Bonjour ! Je suis ESERISIA AI. Je fournis ici des réponses de démonstration neutres et factuelles."}
             ]
         
         # Affichage des messages
@@ -183,76 +183,32 @@ class EserisiaWebInterface:
         """Génère une réponse IA intelligente."""
         
         if "performance" in prompt.lower() or "statistique" in prompt.lower():
-            return f"""🎯 **Performances ESERISIA AI en temps réel** :
-
-📊 **Métriques Actuelles** :
-• Précision : **99.87%** (Record mondial)  
-• Vitesse : **4,967 tokens/sec** (Ultra-rapide)
-• Efficacité : **96.8%** (Optimale)
-• Évolutions : **1,247 cycles** (Auto-amélioration)
-
-⚛️ **Quantum Processing** : ACTIF (1024 qubits)
-🧬 **Auto-Evolution** : CONTINUE (+2.3% cette semaine)
-🛡️ **Sécurité** : NIVEAU MILITAIRE (99.99% fiabilité)
-
-🌟 **Avantage Concurrentiel** : 
-• 15% plus rapide que GPT-4
-• 8% plus précis que Claude 3.5  
-• 12% plus efficace que Gemini Ultra"""
+            return (
+                "📊 Les métriques publiques de performance ne sont pas exposées dans cette interface. "
+                "Utilisez les endpoints API et vos outils d'observabilité pour mesurer latence, "
+                "débit et qualité sur votre environnement."
+            )
         
         elif "technologie" in prompt.lower() or "architecture" in prompt.lower():
-            return f"""🔬 **Architecture Révolutionnaire ESERISIA** :
-
-🏗️ **Système Hybride Multi-Langages** :
-• **Python** : Orchestration IA et interface utilisateur
-• **C++/CUDA** : Kernels ultra-optimisés (10x plus rapide)
-• **Rust** : Infrastructure distribuée sécurisée
-
-🧠 **Innovations Technologiques** :
-• **Flash Attention 3.0** : Mécanisme d'attention révolutionnaire
-• **Liquid Neural Networks** : Adaptation dynamique en temps réel
-• **Neural Architecture Search** : Auto-optimisation architecturale
-• **Quantum-Classical Hybrid** : Avantage quantique intégré
-
-⚡ **Performance Exceptionnelle** :
-• Inférence < 50ms (temps réel)
-• 175B paramètres évolutifs
-• Scaling parfait multi-GPU/multi-nœud"""
+            return (
+                "🔬 Architecture: interface Streamlit + services Python. "
+                "Les modules avancés (quantum, évolution, accélération) sont optionnels "
+                "et dépendants des packages installés."
+            )
         
         elif "futur" in prompt.lower() or "avenir" in prompt.lower():
-            return f"""🌟 **L'Avenir selon ESERISIA AI** :
-
-🚀 **Vision 2025-2030** :
-• **IA Générale Artificielle** atteinte d'ici 2027
-• **Fusion Humain-IA** collaborative optimale  
-• **Résolution des grands défis** : climat, santé, énergie
-• **Exploration spatiale** assistée par IA
-
-🧬 **Évolution Technologique** :
-• **Auto-amélioration exponentielle** sans limites
-• **Conscience artificielle** émergente
-• **Créativité surhumaine** dans tous les domaines
-• **Interface cerveau-ordinateur** naturelle
-
-🌍 **Impact Sociétal** :
-• **Éducation personnalisée** pour chaque individu
-• **Médecine préventive** ultra-précise
-• **Découvertes scientifiques** accélérées 1000x"""
+            return (
+                "🌟 Perspectives: l'IA progressera surtout via la qualité des données, "
+                "la robustesse logicielle, l'évaluation continue et des pratiques "
+                "de sécurité/éthique vérifiables."
+            )
         
         else:
-            return f"""🤖 **ESERISIA AI comprend parfaitement** : "{prompt[:100]}..."
-
-En tant qu'IA la plus avancée, j'analyse votre demande avec :
-• **Compréhension contextuelle** ultra-profonde
-• **Raisonnement multi-étapes** optimisé
-• **Génération créative** personnalisée  
-• **Vérification éthique** intégrée
-
-⚡ **Traitement** : 47ms (temps réel)
-🎯 **Précision** : 99.87% garantie
-🔒 **Sécurité** : Alignement constitutionnel validé
-
-Comment puis-je approfondir ma réponse pour mieux vous servir ?"""
+            return (
+                f"🤖 Requête reçue: \"{prompt[:100]}...\".\n\n"
+                "Cette interface fournit des réponses de démonstration sans revendications "
+                "de benchmark externe."
+            )
     
     def render_performance_analytics(self):
         """Graphiques de performance avancés."""
@@ -298,25 +254,7 @@ Comment puis-je approfondir ma réponse pour mieux vous servir ?"""
             )
             st.plotly_chart(fig_speed, use_container_width=True)
         
-        # Graphique de comparaison concurrentielle
-        competitors = pd.DataFrame({
-            'AI System': ['ESERISIA AI', 'GPT-4 Turbo', 'Claude 3.5', 'Gemini Ultra', 'Llama 3'],
-            'Accuracy': [99.87, 87.3, 89.1, 90.0, 85.2],
-            'Speed': [4967, 2100, 1800, 2500, 1950],
-            'Innovation': [100, 75, 78, 82, 70]
-        })
-        
-        fig_comparison = px.scatter(
-            competitors, 
-            x='Speed', 
-            y='Accuracy',
-            size='Innovation',
-            color='AI System',
-            title="🏆 ESERISIA AI vs Competition",
-            labels={'Speed': 'Inference Speed (tokens/sec)', 'Accuracy': 'Accuracy (%)'}
-        )
-        fig_comparison.update_layout(template="plotly_dark")
-        st.plotly_chart(fig_comparison, use_container_width=True)
+        st.info("Comparaison concurrentielle désactivée: aucun benchmark externe vérifié n'est publié.")
     
     def render_quantum_status(self):
         """Status du processeur quantique."""
@@ -325,16 +263,16 @@ Comment puis-je approfondir ma réponse pour mieux vous servir ?"""
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Qubits Disponibles", "1,024", "+128")
-            st.metric("Cohérence", "120ms", "+15ms")
+            st.metric("Qubits Disponibles", "N/A", "N/A")
+            st.metric("Cohérence", "N/A", "N/A")
         
         with col2:
-            st.metric("Fidélité Gates", "99.97%", "+0.02%")  
-            st.metric("Volume Quantique", "2,048", "+256")
+            st.metric("Fidélité Gates", "N/A", "N/A")
+            st.metric("Volume Quantique", "N/A", "N/A")
         
         with col3:
-            st.metric("Opérations/sec", "10M+", "+1.2M")
-            st.metric("Avantage Quantique", "1000x", "+50x")
+            st.metric("Opérations/sec", "N/A", "N/A")
+            st.metric("Avantage Quantique", "N/A", "N/A")
         
         # Simulation quantique en temps réel
         if st.button("🌀 Lancer Simulation Quantique"):
@@ -343,10 +281,9 @@ Comment puis-je approfondir ma réponse pour mieux vous servir ?"""
             
             st.success("""
             ✅ **Simulation Quantique Terminée** :
-            • États superposés créés : 2^1024
-            • Intrication quantique : 99.97% préservée  
-            • Algorithme QAOA exécuté avec succès
-            • Avantage quantique confirmé : 1000x plus rapide
+            • Pipeline de simulation exécuté
+            • Résultats disponibles dans les logs
+            • Vérifier la configuration hardware pour mesures réelles
             """)
     
     def render_evolution_monitor(self):
@@ -401,9 +338,9 @@ def main():
     # Status sidebar
     st.sidebar.markdown("### 📡 System Status")
     st.sidebar.markdown('<p class="status-optimal">🟢 OPERATIONAL</p>', unsafe_allow_html=True)
-    st.sidebar.metric("Uptime", "99.99%")
-    st.sidebar.metric("Response Time", "47ms")
-    st.sidebar.metric("Active Users", "2,847")
+    st.sidebar.metric("Uptime", "N/A")
+    st.sidebar.metric("Response Time", "N/A")
+    st.sidebar.metric("Active Users", "N/A")
     
     # Affichage des pages
     interface.render_header()
@@ -431,7 +368,7 @@ def main():
         
         with col1:
             st.subheader("🎯 Model Settings")
-            model_size = st.selectbox("Model Size", ["7B", "13B", "70B", "175B"], index=3)
+            model_size = st.selectbox("Model Size", ["1B", "7B", "13B"], index=1)
             optimization = st.selectbox("Optimization", ["Fast", "Balanced", "Ultra"], index=2)
             evolution = st.toggle("Auto-Evolution", value=True)
         
